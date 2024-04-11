@@ -20,9 +20,9 @@ public class TaskManager {
    * Constructs a TaskManager with empty to-do and completed task lists.
    */
   public TaskManager() {
-    // TODO implement this constructor
+    this.toDoList = new TaskList();
+    this.completedTasks = new TaskList();
   }
-
 
   /**
    * Appends a task to the end of the to-do list.
@@ -30,7 +30,7 @@ public class TaskManager {
    * @param task The task to be added to the to-do list.
    */
   public void appendTask(Task task) {
-    // TODO implement this method
+    this.toDoList.add(task);
   }
 
   /**
@@ -41,7 +41,14 @@ public class TaskManager {
    *                                   list valid range of indexes.
    */
   public void movetoTop(int indexTaskToMove) {
-    // TODO implement this method
+    // checks if index is valid
+    if (indexTaskToMove < 0 || indexTaskToMove >= toDoList.size()) {
+      throw new IndexOutOfBoundsException("Index is out of bounds of the to-do list.");
+    }
+
+    // adds task to the beginning of the to-do list then removes it from the previous position
+    toDoList.addFirst(toDoList.get(indexTaskToMove));
+    toDoList.remove(indexTaskToMove + 1);
   }
 
   /**
@@ -52,7 +59,14 @@ public class TaskManager {
    *                                   list valid range of indexes.
    */
   public void moveToBottom(int indexTaskToMove) {
-    // TODO implement this method
+    // checks if index is valid
+    if (indexTaskToMove < 0 || indexTaskToMove >= toDoList.size()) {
+      throw new IndexOutOfBoundsException("Index is out of bounds of the to-do list.");
+    }
+
+    // adds task to the end of the to-do list then removes it from the previous position
+    toDoList.add(toDoList.get(indexTaskToMove));
+    toDoList.remove(indexTaskToMove);
   }
 
   /**
@@ -64,8 +78,17 @@ public class TaskManager {
    *
    */
   public boolean moveBeforeOtherTask(int indexTaskToMove, int indexOtherTask) {
-    // TODO implement this method
-    return false;
+    // checks if index is valid
+    if (indexTaskToMove < 0 || indexTaskToMove >= toDoList.size() || indexOtherTask < 0 || indexOtherTask >= toDoList.size()) {
+      return false;
+    }
+
+    // create temporary task to be moved
+    Task taskToMove = toDoList.get(indexTaskToMove);
+
+    toDoList.remove(indexTaskToMove); // removes the task from og position
+    toDoList.add(indexOtherTask - 1, taskToMove); // adds it before the other task
+    return true;
   }
 
   /**
@@ -76,8 +99,17 @@ public class TaskManager {
    * @return true if the task was successfully moved; false otherwise.
    */
   public boolean moveAfterOtherTask(int indexTaskToMove, int indexOtherTask) {
-    // TODO implement this method
-    return false;
+    // checks if index is valid
+    if (indexTaskToMove < 0 || indexTaskToMove >= toDoList.size() || indexOtherTask < 0 || indexOtherTask >= toDoList.size()) {
+      return false;
+    }
+
+    // create temporary task to be moved
+    Task taskToMove = toDoList.get(indexTaskToMove);
+
+    toDoList.remove(indexTaskToMove); // removes the task from og position
+    toDoList.add(indexOtherTask + 1, taskToMove); // adds it before the other task
+    return true;
   }
 
   /**
@@ -87,8 +119,13 @@ public class TaskManager {
    * @return true if the task was successfully removed; false if the index was invalid.
    */
   public boolean removeTask(int index) {
-    // TODO implement this method
-    return false;
+    // checks if index is valid
+    if (index < 0 || index >= toDoList.size()) {
+      return false;
+    }
+
+    toDoList.remove(index); // removes task from to-do list at index
+    return true;
   }
 
   /**
@@ -100,8 +137,15 @@ public class TaskManager {
    *         invalid.
    */
   public boolean completeTask(int index) {
-    // TODO implement this method
-    return false;
+    // checks if index is valid
+    if (index < 0 || index >= toDoList.size()) {
+      return false;
+    }
+
+    toDoList.get(index).markCompleted(); // marks task in to-do list as completed
+    completedTasks.add(toDoList.get(index)); // adds the completed task from to-do list to completedTasks list
+    toDoList.remove(index); // removes the now completed task from to-do list
+    return true;
   }
 
   /**
@@ -110,7 +154,37 @@ public class TaskManager {
    * @return a new TaskList that contains all tasks sorted in the increasing order
    */
   public TaskList sortTasks() {
-    // TODO implement this method
-    return null;
+    // creates new master task list to be sorted
+    TaskList sorted = new TaskList();
+
+    // copies all tasks into sorted list
+    for (int i = 0; i < toDoList.size(); i++) {
+      sorted.add(toDoList.get(i));
+    }
+
+    for (int i = 0; i < completedTasks.size(); i++) {
+      sorted.add(completedTasks.get(i));
+    }
+
+    boolean swap;
+    // bubble sorts the task list
+    for (int i = 0; i < sorted.size() - 1; i++) {
+      swap = false;
+
+      for (int j = 0; j < sorted.size() - i - 1; j++) {
+        if (sorted.get(j).compareTo(sorted.get(j + 1)) > 0) {
+          Task temp = sorted.get(j);
+          sorted.remove(j);
+          sorted.add(j + 1, temp);
+          swap = true;
+        }
+      }
+
+      if (!swap) {
+        break;
+      }
+    }
+
+    return sorted;
   }
 }
