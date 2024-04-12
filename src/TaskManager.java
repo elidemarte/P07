@@ -86,8 +86,28 @@ public class TaskManager {
     // create temporary task to be moved
     Task taskToMove = toDoList.get(indexTaskToMove);
 
-    toDoList.remove(indexTaskToMove); // removes the task from og position
-    toDoList.add(indexOtherTask - 1, taskToMove); // adds it before the other task
+
+
+    // if it wants to add in front, put at 0
+    if (indexOtherTask == 0) {
+      toDoList.add(0, taskToMove);
+      toDoList.remove(indexTaskToMove); // removes the task from og position
+    }
+
+    else if (indexOtherTask == indexTaskToMove) {
+      return true;
+    }
+
+    else if (indexOtherTask == 1) {
+      toDoList.add(indexOtherTask, taskToMove); // adds it before the other task
+      toDoList.remove(indexTaskToMove); // removes the task from og position
+    }
+
+    else {
+      toDoList.add(indexOtherTask - 1, taskToMove); // adds it before the other task
+      toDoList.remove(indexTaskToMove); // removes the task from og position
+    }
+
     return true;
   }
 
@@ -109,6 +129,7 @@ public class TaskManager {
 
     toDoList.remove(indexTaskToMove); // removes the task from og position
     toDoList.add(indexOtherTask + 1, taskToMove); // adds it before the other task
+
     return true;
   }
 

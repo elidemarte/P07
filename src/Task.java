@@ -155,9 +155,6 @@ public class Task implements Comparable<Task> {
     return title + ": " + description;
   }
 
-  // TODO complete the implementation of equals and compareTo methods with accordance to the details
-  // provided in their javadocs.
-
   /**
    * Compares this task to the specified object. The result is true if and only if the argument is
    * not null and is a Task object (instanceof Task) that has this same title as this task, case

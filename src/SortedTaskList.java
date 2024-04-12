@@ -2,7 +2,7 @@ import java.util.NoSuchElementException;
 
 public class SortedTaskList extends TaskList {
 
-    public void add(Task aTask) throws NullPointerException, IllegalArgumentException {
+    public void add(Task aTask) {
         // check to see if task is null
         if (aTask == null) {
             throw new NullPointerException("Task to add can't be null");
@@ -13,7 +13,7 @@ public class SortedTaskList extends TaskList {
                     "allowed in this list.");
         }
 
-        // TODO this only works if sortingOrder is for PRIORITY... idk how to call setSortingOrderByPriority
+        // TODO this only deosnt work
         // finds index where the new task should be inserted
         int index = 0;
         while (this.get(index).compareTo(aTask) < 0) {
@@ -24,7 +24,7 @@ public class SortedTaskList extends TaskList {
         super.add(index, aTask);
     }
 
-    public void addFirst(Task aTask) throws NullPointerException, IllegalStateException {
+    public void addFirst(Task aTask) {
         // check to see if task is null
         if (aTask == null) {
             throw new NullPointerException("Task to add can't be null");
@@ -49,8 +49,7 @@ public class SortedTaskList extends TaskList {
         }
     }
 
-    public void add(int index, Task aTask) throws NullPointerException, IllegalStateException,
-            IndexOutOfBoundsException {
+    public void add(int index, Task aTask) {
 
         // check to see if task is null
         if (aTask == null) {
@@ -76,7 +75,7 @@ public class SortedTaskList extends TaskList {
         super.add(index, aTask);
     }
 
-    public Task peekBest() throws NoSuchElementException {
+    public Task peekBest() {
         // check if list is empty
         if (isEmpty()) {
             throw new NoSuchElementException("List is already empty");
@@ -86,7 +85,7 @@ public class SortedTaskList extends TaskList {
         return this.get(0);
     }
 
-    public Task removeBest() throws NoSuchElementException {
+    public Task removeBest() {
         // check if list is empty
         if (isEmpty()) {
             throw new NoSuchElementException("List is already empty");

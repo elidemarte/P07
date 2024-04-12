@@ -130,6 +130,10 @@ public class TaskList extends Object implements ListADT<Task> {
     @Override
     public boolean contains(Task toFind) {
         LinkedNode<Task> target = head;
+        if (target == null) {
+            return false;
+        }
+
         if (toFind.equals(target.getData())) { // Check head element b/c loop below doesn't check
                                                // first element
             return true;
